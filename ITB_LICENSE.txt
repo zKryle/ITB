@@ -1,8 +1,8 @@
 MIT License
 
-Copyright (c) 2023 NeoForged project
+Copyright (c) 2025 zKryle ITB
 
-This license applies to the template files as supplied by github.com/NeoForged/MDK
+This license applies to ITB as supplied by github.com/zKryle/ITB
 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
