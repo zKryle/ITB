@@ -1,0 +1,5 @@
+FEATURES (v1.0.0)
+- 3D hollow Furnace model
+- Items visibly cooking inside the Furnace in real time
+- Fully synced with the Furnace’s internal state
+- Purely visual — no changes to vanilla mechanics

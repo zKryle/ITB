@@ -178,11 +178,36 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 // IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+
 idea {
     module {
         downloadSources = true
         downloadJavadoc = true
     }
 
+def env = new Properties()
+file(".env").withInputStream { env.load(it) }
+
+task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+    // This token is used to authenticate with CurseForge. It should be handled
+    // with the same level of care and security as your actual password. You
+    // should never share your token with an untrusted source or publish it
+    // publicly to GitHub or embed it within a project. The best practice is to
+    // store this token in an environment variable or a build secret.
+    apiToken = env.get("CF_API_KEY")
+
+    // A project ID is required to tell CurseForge which project the uploaded
+    // file belongs to. This is public on your project page and is not private
+    // information.
+    def projectId = env.get("CF_PROJ_ID")
+
+    // Tells CurseForgeGradle to publish the output of the jar task. This will
+    // return a UploadArtifact object that can be used to further configure the
+    // file.
+    def mainFile = upload(projectId, jar)
+    mainFile.releaseType = 'release'
+    mainFile.changelog = file('changelog.txt')
+    mainFile.addModLoader('NeoForge')
+}
 
 }

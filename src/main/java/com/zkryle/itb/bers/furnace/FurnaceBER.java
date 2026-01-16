@@ -74,8 +74,8 @@ public class FurnaceBER implements BlockEntityRenderer<FurnaceBlockEntity, Furna
         int packedLight = LevelRenderer.getLightColor(level, renderState.blockPos.relative(renderState.facing));
 
         AbstractFurnaceBlockEntity entity = (AbstractFurnaceBlockEntity) level.getBlockEntity(renderState.blockPos);
-        ItemStack toCookItem = entity.getItem(1);
-        ItemStack cookedItem = entity.getItem(1);
+        ItemStack toCookItem = entity.getItem(0);
+        ItemStack cookedItem = entity.getItem(2);
         
         setupAndSubmitFuelItem(renderState.fuelItemStackRenderState, renderState, poseStack, nodeCollector, level, packedLight);
         if(!toCookItem.isEmpty()) {
