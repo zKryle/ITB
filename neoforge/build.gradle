@@ -65,7 +65,7 @@ sourceSets.configureEach {
 def env = new Properties()
 file("../.env").withInputStream { env.load(it) }
 
-task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+tasks.register('publishCurseForgeNeo', net.darkhax.curseforgegradle.TaskPublishCurseForge) {
     // This token is used to authenticate with CurseForge. It should be handled
     // with the same level of care and security as your actual password. You
     // should never share your token with an untrusted source or publish it
@@ -84,6 +84,7 @@ task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge)
     def mainFile = upload(projectId, jar)
     mainFile.releaseType = 'release'
     mainFile.changelog = file('changelog.txt')
+    mainFile.gameVersions.removeIf { (it == "Forge") }
     mainFile.addModLoader('NeoForge')
 }
 
