@@ -3,16 +3,14 @@ package com.zkryle.itb.events;
 import com.zkryle.itb.Constants;
 import com.zkryle.itb.networking.payloads.FurnaceItemSlotsUploadPayload;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.storage.TagValueOutput;
-import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
@@ -43,11 +41,11 @@ public class ServerEvents {
                     items.set(i, ((AbstractFurnaceBlockEntity) blockEntity).getItem(i));
                 }
 
-                TagValueOutput itemsTag = TagValueOutput.createWithContext(new ProblemReporter.ScopedCollector(Constants.LOG), level.registryAccess());
+                CompoundTag itemsTag = new CompoundTag();
 
-                ContainerHelper.saveAllItems(itemsTag, items);
+                ContainerHelper.saveAllItems(itemsTag, items, level.registryAccess());
 
-                PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) level, new ChunkPos(blockEntity.getBlockPos()), new FurnaceItemSlotsUploadPayload(size, itemsTag.buildResult(), blockEntity.getBlockPos().asLong()));
+                PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) level, new ChunkPos(blockEntity.getBlockPos()), new FurnaceItemSlotsUploadPayload(size, itemsTag, blockEntity.getBlockPos().asLong()));
             }
 
         }));

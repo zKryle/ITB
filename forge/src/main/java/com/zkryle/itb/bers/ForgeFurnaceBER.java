@@ -2,8 +2,8 @@ package com.zkryle.itb.bers;
 
 import com.zkryle.itb.bers.furnace.AbstractFurnaceBER;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.level.material.Fluid;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BucketItem;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 
 public class ForgeFurnaceBER extends AbstractFurnaceBER {
@@ -12,7 +12,7 @@ public class ForgeFurnaceBER extends AbstractFurnaceBER {
     }
 
     @Override
-    protected Identifier getFluidTextureCommon(Fluid fluid) {
-        return IClientFluidTypeExtensions.of(fluid).getStillTexture();
+    protected ResourceLocation getFluidTextureCommon(BucketItem bucketItem) {
+        return IClientFluidTypeExtensions.of(bucketItem.content).getStillTexture();
     }
 }

@@ -3,9 +3,7 @@ package com.zkryle.itb.networking.packet;
 import com.zkryle.itb.networking.packet.clienthandlers.FurnaceItemSlotsUploadPacketClientHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.network.CustomPayloadEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public class FurnaceItemSlotsUploadPacket {

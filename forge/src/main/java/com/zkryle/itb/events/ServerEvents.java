@@ -4,15 +4,14 @@ import com.zkryle.itb.Constants;
 import com.zkryle.itb.networking.ITBPacketHandler;
 import com.zkryle.itb.networking.packet.FurnaceItemSlotsUploadPacket;
 import net.minecraft.core.NonNullList;
-import net.minecraft.util.ProblemReporter;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 
@@ -22,7 +21,7 @@ public class ServerEvents {
     @SubscribeEvent
     public static void levelTick(TickEvent.LevelTickEvent.Post event){
 
-        Level level = event.level();
+        Level level = event.level;
 
         if(level.isClientSide())
             return;
@@ -41,11 +40,11 @@ public class ServerEvents {
                     items.set(i, ((AbstractFurnaceBlockEntity) blockEntity).getItem(i));
                 }
 
-                TagValueOutput itemsTag = TagValueOutput.createWithContext(new ProblemReporter.ScopedCollector(Constants.LOG), level.registryAccess());
+                CompoundTag itemsTag = new CompoundTag();
 
-                ContainerHelper.saveAllItems(itemsTag, items);
+                ContainerHelper.saveAllItems(itemsTag, items, level.registryAccess());
 
-                ITBPacketHandler.CHANNEL.send(new FurnaceItemSlotsUploadPacket(size, itemsTag.buildResult(), blockEntity.getBlockPos().asLong()), PacketDistributor.TRACKING_CHUNK.with(level.getChunkAt(blockEntityTicker.getPos())));
+                ITBPacketHandler.CHANNEL.send(new FurnaceItemSlotsUploadPacket(size, itemsTag, blockEntity.getBlockPos().asLong()), PacketDistributor.TRACKING_CHUNK.with(level.getChunkAt(blockEntityTicker.getPos())));
             }
 
         }));
