@@ -22,18 +22,24 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-public abstract class AbstractFurnaceBER implements BlockEntityRenderer<FurnaceBlockEntity, FurnaceRenderState> {
+public abstract class AbstractFurnaceBER implements BlockEntityRenderer<AbstractFurnaceBlockEntity, FurnaceRenderState> {
     private final ItemModelResolver itemModelResolver;
     private Identifier tempFluid;
+    private final Vector3f cookedPos, toCookPos, fuelPos, fluidPos;
+    private final boolean isFurnace;
 
-    public AbstractFurnaceBER(BlockEntityRendererProvider.Context context){
+    public AbstractFurnaceBER(BlockEntityRendererProvider.Context context, Vector3f cookedPos, Vector3f toCookPos, Vector3f fuelPos, Vector3f fluidPos, boolean isFurnace){
         itemModelResolver = context.itemModelResolver();
+        this.cookedPos = cookedPos;
+        this.toCookPos = toCookPos;
+        this.fuelPos = fuelPos;
+        this.fluidPos = fluidPos;
+        this.isFurnace = isFurnace;
     }
 
     @Override
@@ -42,7 +48,7 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<FurnaceB
     }
 
     @Override
-    public void extractRenderState(FurnaceBlockEntity blockEntity, FurnaceRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+    public void extractRenderState(AbstractFurnaceBlockEntity blockEntity, FurnaceRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
 
         renderState.facing = blockEntity.getBlockState().getValue(FurnaceBlock.FACING);
@@ -94,7 +100,7 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<FurnaceB
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.575F, 0.5F);
         poseStack.mulPose(Axis.YN.rotationDegrees(90.0F * renderState.facing.get2DDataValue()));
-        poseStack.translate(0.125F, 0.0F, 0.325F);
+        poseStack.translate(cookedPos.x, cookedPos.y, cookedPos.z);
 
         poseStack.mulPose(Axis.XN.rotationDegrees(90.0F));
 
@@ -108,7 +114,7 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<FurnaceB
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.575F, 0.5F);
         poseStack.mulPose(Axis.YN.rotationDegrees(90.0F * renderState.facing.get2DDataValue()));
-        poseStack.translate(-0.125F, 0.0F, 0.075F);
+        poseStack.translate(toCookPos.x, toCookPos.y, toCookPos.z);
 
         poseStack.mulPose(Axis.XN.rotationDegrees(90.0F));
 
@@ -138,7 +144,7 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<FurnaceB
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.030F, 0.5F);
         poseStack.mulPose(Axis.YN.rotationDegrees(90.0F * renderState.facing.get2DDataValue()));
-        poseStack.translate(0.0F, 0.0F, 0.19F);
+        poseStack.translate(fuelPos.x, fuelPos.y, fuelPos.z);
 
         for (int i = 1; i <= 10; i++) {
             poseStack.pushPose();
@@ -165,7 +171,7 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<FurnaceB
             poseStack.translate(0.5F, 0.0F, 0.5F);
             poseStack.mulPose(Axis.YN.rotationDegrees(90.0F * direction.get2DDataValue()));
             poseStack.translate(0.0F, 0.0F, 0.19F);
-            poseStack.translate(-0.175F, 0.0F, -0.12125F);
+            poseStack.translate(fluidPos.x, fluidPos.y, fluidPos.z);
 
             Identifier fluidTexture = getFluidTextureCommon(bucketItem.getContent());
 
