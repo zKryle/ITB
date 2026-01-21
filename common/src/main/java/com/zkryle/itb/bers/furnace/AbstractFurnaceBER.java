@@ -23,9 +23,16 @@ import org.joml.Vector3f;
 public abstract class AbstractFurnaceBER implements BlockEntityRenderer<AbstractFurnaceBlockEntity> {
     private final ItemRenderer itemRenderer;
     private ResourceLocation tempFluid;
+    private final Vector3f cookedPos, toCookPos, fuelPos, fluidPos;
+    private final boolean isFurnace;
 
-    public AbstractFurnaceBER(BlockEntityRendererProvider.Context context){
+    public AbstractFurnaceBER(BlockEntityRendererProvider.Context context, Vector3f cookedPos, Vector3f toCookPos, Vector3f fuelPos, Vector3f fluidPos, boolean isFurnace){
         itemRenderer = context.getItemRenderer();
+        this.cookedPos = cookedPos;
+        this.toCookPos = toCookPos;
+        this.fuelPos = fuelPos;
+        this.fluidPos = fluidPos;
+        this.isFurnace = isFurnace;
     }
 
     @Override
@@ -42,12 +49,14 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<Abstract
         setupAndSubmitFuelItem(entity, fuelItem, direction, poseStack, multiBufferSource, level, frontPackedLight, packedOverlay);
         if(!toCookItem.isEmpty()) {
             Vector3f relParticlePos = new Vector3f(-0.18F, 0.0F, 0.15F);
-            renderSmokeParticles(relParticlePos, direction, entity.getBlockPos(), level);
+            if (isFurnace)
+                renderSmokeParticles(relParticlePos, direction, entity.getBlockPos(), level);
             setupAndSubmitToCookItem(entity, toCookItem, direction, poseStack, multiBufferSource, level, frontPackedLight, packedOverlay);
         }
         if(!cookedItem.isEmpty()) {
             Vector3f relParticlePos = new Vector3f( 0.35F, 0.0F, 0.175F);
-            renderSmokeParticles(relParticlePos, direction, entity.getBlockPos(), level);
+            if (isFurnace)
+                renderSmokeParticles(relParticlePos, direction, entity.getBlockPos(), level);
             setupAndSubmitCookedItem(entity, cookedItem, direction, poseStack, multiBufferSource, level, frontPackedLight, packedOverlay);
         }
     }
@@ -56,7 +65,7 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<Abstract
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.575F, 0.5F);
         poseStack.mulPose(Axis.YN.rotationDegrees(90.0F * facing.get2DDataValue()));
-        poseStack.translate(0.125F, 0.0F, 0.325F);
+        poseStack.translate(cookedPos.x, cookedPos.y, cookedPos.z);
 
         poseStack.mulPose(Axis.XN.rotationDegrees(90.0F));
 
@@ -71,7 +80,7 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<Abstract
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.575F, 0.5F);
         poseStack.mulPose(Axis.YN.rotationDegrees(90.0F * facing.get2DDataValue()));
-        poseStack.translate(-0.125F, 0.0F, 0.075F);
+        poseStack.translate(toCookPos.x, toCookPos.y, toCookPos.z);
 
         poseStack.mulPose(Axis.XN.rotationDegrees(90.0F));
 
@@ -99,14 +108,14 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<Abstract
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.030F, 0.5F);
         poseStack.mulPose(Axis.YN.rotationDegrees(90.0F * facing.get2DDataValue()));
-        poseStack.translate(0.0F, 0.0F, 0.19F);
+        poseStack.translate(fuelPos.x, fuelPos.y, fuelPos.z);
 
         for (int i = 1; i <= 10; i++) {
             poseStack.pushPose();
 
             poseStack.mulPose(Axis.YP.rotationDegrees(degCount));
             poseStack.mulPose(Axis.XN.rotationDegrees(45.0F));
-            poseStack.translate(0.0, 0.0, 0.125F);
+            poseStack.translate(0.0F, 0.0F, 0.125F);
             poseStack.scale(0.165F, 0.165F, 0.165F);
 
             this.itemRenderer.renderStatic(itemStack, ItemDisplayContext.FIXED, packedLight, packedOverlay, poseStack, bufferSource, level, (int) entity.getBlockPos().asLong() + 2);
@@ -126,7 +135,7 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<Abstract
             poseStack.translate(0.5F, 0.0F, 0.5F);
             poseStack.mulPose(Axis.YN.rotationDegrees(90.0F * direction.get2DDataValue()));
             poseStack.translate(0.0F, 0.0F, 0.19F);
-            poseStack.translate(-0.175F, 0.0F, -0.12125F);
+            poseStack.translate(fluidPos.x, fluidPos.y, fluidPos.z);
 
             ResourceLocation fluidTexture = getFluidTextureCommon(bucketItem);
 

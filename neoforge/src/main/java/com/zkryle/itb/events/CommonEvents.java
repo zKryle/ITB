@@ -10,6 +10,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class CommonEvents {
+
     @SubscribeEvent
     public static void registerPayloadHandlers(RegisterPayloadHandlersEvent event){
         final PayloadRegistrar registrar = event.registrar("1");
