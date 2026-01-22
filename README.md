@@ -1,7 +1,3 @@
-> **NOTE:**  
-> This mod is in an **early stage (v1.0.0)**.  
-> Currently, **only the vanilla Furnace** is implemented.
-
 Have bugs or issues?  
 👉 Report them here: https://github.com/zKryle/ITB/issues
 
@@ -15,6 +11,11 @@ Blocks like the furnace are no longer opaque cubes — you can actually see what
 
 ---
 
+## Features (v1.1.0)
+- 3D hollow Blast Furnace and Smoker model
+- Fixed missing textures inside the model
+- Fixed a bug with retrieving the fluid texture that had the game crash in some cases
+
 ## Features (v1.0.0)
 
 - 3D hollow Furnace model
@@ -26,7 +27,6 @@ Blocks like the furnace are no longer opaque cubes — you can actually see what
 
 ## Planned Features
 
-- Support for additional container blocks (Blast Furnace, Smoker, etc.)
 - More detailed item animations
 - Optional configuration settings
 - Compatibility improvements and optimizations
@@ -35,8 +35,6 @@ Blocks like the furnace are no longer opaque cubes — you can actually see what
 
 ## Important
 
-- This mod currently supports **only the vanilla Furnace**
-- More block entities will be added in future updates
 - Suggestions and feedback are welcome!
 
 ---

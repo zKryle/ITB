@@ -49,13 +49,13 @@ public abstract class AbstractFurnaceBER implements BlockEntityRenderer<Abstract
         setupAndSubmitFuelItem(entity, fuelItem, direction, poseStack, multiBufferSource, level, frontPackedLight, packedOverlay);
         if(!toCookItem.isEmpty()) {
             Vector3f relParticlePos = new Vector3f(-0.18F, 0.0F, 0.15F);
-            if (isFurnace)
+            if (isFurnace && !fuelItem.isEmpty())
                 renderSmokeParticles(relParticlePos, direction, entity.getBlockPos(), level);
             setupAndSubmitToCookItem(entity, toCookItem, direction, poseStack, multiBufferSource, level, frontPackedLight, packedOverlay);
         }
         if(!cookedItem.isEmpty()) {
             Vector3f relParticlePos = new Vector3f( 0.35F, 0.0F, 0.175F);
-            if (isFurnace)
+            if (isFurnace && !fuelItem.isEmpty())
                 renderSmokeParticles(relParticlePos, direction, entity.getBlockPos(), level);
             setupAndSubmitCookedItem(entity, cookedItem, direction, poseStack, multiBufferSource, level, frontPackedLight, packedOverlay);
         }

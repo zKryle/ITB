@@ -23,12 +23,12 @@ public class GameClientEvents {
         BlockPos pos = event.getTarget().getBlockPos();
         BlockState state = Minecraft.getInstance().level.getBlockState(pos);
         Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
-        if(state.is(Blocks.BLAST_FURNACE)){
+        if(state.is(Blocks.BLAST_FURNACE) || state.is(Blocks.SMOKER)){
             VertexConsumer vertexConsumer = event.getMultiBufferSource().getBuffer(RenderType.lines());
             renderShape(event.getPoseStack(), vertexConsumer, state.getShape(Minecraft.getInstance().level, pos, CollisionContext.of(camera.getEntity())), (double)pos.getX() - camera.getPosition().x, (double)pos.getY() - camera.getPosition().y, (double)pos.getZ() - camera.getPosition().z, 0.2F, 0.2F, 0.2F, 1.0F);
             event.setCanceled(true);
         }
 
-        // Make outline solid just for the blast furnace to fix a very annoying bug minecraft has with the border of block models set to translucent RenderType;
+        // Make outline solid just for the blast furnace and smoker to fix a very annoying bug minecraft has with the border of block models set to translucent RenderType;
     }
 }
