@@ -1,3 +1,8 @@
+FEATURES (v1.1.0)
+- 3D hollow Blast Furnace and Smoker model
+- Fixed missing textures inside the model
+- Fixed a bug with retrieving the fluid texture that had the game crash in some cases
+=======================================================
 FEATURES (v1.0.0)
 - 3D hollow Furnace model
 - Items visibly cooking inside the Furnace in real time

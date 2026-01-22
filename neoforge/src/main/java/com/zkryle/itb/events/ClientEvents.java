@@ -16,7 +16,7 @@ public class ClientEvents {
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event){
         event.registerBlockEntityRenderer(BlockEntityType.FURNACE, (BlockEntityRendererProvider.Context context) -> new NeoForgeFurnaceBER(context, Constants.FURNACE_COOKED, Constants.FURNACE_TOCOOK, Constants.FURNACE_FUEL, Constants.FURNACE_FLUID, true));
         event.registerBlockEntityRenderer(BlockEntityType.BLAST_FURNACE, (BlockEntityRendererProvider.Context context) -> new NeoForgeFurnaceBER(context, Constants.BFURNACE_COOKED, Constants.BFURNACE_TOCOOK, Constants.BFURNACE_FUEL, Constants.BFURNACE_FLUID, false));
-
+        event.registerBlockEntityRenderer(BlockEntityType.SMOKER, (BlockEntityRendererProvider.Context context) -> new NeoForgeFurnaceBER(context, Constants.SMOKER_COOKED, Constants.SMOKER_TOCOOK, Constants.SMOKER_FUEL, Constants.SMOKER_FLUID, false));
     }
 
 }
